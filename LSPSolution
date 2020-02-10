@@ -1,0 +1,73 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Collections.Generic;
+
+namespace LiskovPSol
+{
+    class LiskovSol
+    {
+        [TestMethod]
+        public void SixFor2X3Rectangle()
+        {
+            var rectangle = new Rectangle() { Height = 2, Width = 3 };
+            var result = rectangle.CalculateArea();
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod]
+        public void NineFor3X3Square()
+        {
+            var square = new Square() { Sides = 3 };
+            var result = square.CalculateArea();
+            Assert.AreEqual(9, result);
+        }
+
+        [TestMethod]
+        public void TwentyFourFor4x6RectangleAndNineFor3x3Square()
+        {
+            var shapes = new List<Shape>()
+        {
+            new Rectangle(){ Height=4,Width=6},
+            new Square(){Sides=3}
+        };
+            var areas = new List<int>();
+            foreach (Shape shape in shapes)
+            {
+                areas.Add(shape.CalculateArea());
+            }
+            Assert.AreEqual(24, areas[0]);
+            Assert.AreEqual(9, areas[1]);
+        }
+
+        static void Main(string[] args)
+        {
+            LiskovSol liskovSol = new LiskovSol();
+            liskovSol.SixFor2X3Rectangle();
+            liskovSol.NineFor3X3Square();
+            liskovSol.TwentyFourFor4x6RectangleAndNineFor3x3Square();
+        }
+    }
+    public abstract class Shape
+    {
+        public abstract int CalculateArea();
+    }
+
+    public class Rectangle : Shape
+    {
+        public int Height { get; set; }
+        public int Width { get; set; }
+        public override int CalculateArea()
+        {
+            return Height * Width;
+        }
+    }
+    public class Square : Shape
+    {
+        public int Sides { get; set; }
+        public override int CalculateArea()
+        {
+            return Sides * Sides;
+        }
+    }
+
+
+}
