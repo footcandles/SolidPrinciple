@@ -1,0 +1,89 @@
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Liskov
+{
+    class LiskovProb
+    {
+        [TestMethod]
+        public void SixFor2X3Rectangle()
+        {
+            var rectangle = new Rectangle() { Height = 2, Width = 3 };
+            var result = AreaCalculator.CalculateArea(rectangle);
+            Assert.AreEqual(6, result);
+        }
+
+        [TestMethod]
+        public void NineFor3X3Square()
+        {
+            var square = new Square() { Height = 3 };
+            var result = AreaCalculator.CalculateArea(square);
+            Assert.AreEqual(9, result);
+        }
+        [TestMethod]
+        public void TwentyFourFor4x6RectangleFromSquare()
+        {
+            Rectangle rectangle = new Square();
+            rectangle.Height = 4;
+            rectangle.Width = 6;
+            var result = AreaCalculator.CalculateArea(rectangle);
+            Assert.AreEqual(24, result);
+        }
+        static void Main(string[] args)
+        {
+            LiskovProb liskovProb = new LiskovProb();
+            liskovProb.SixFor2X3Rectangle();
+            liskovProb.NineFor3X3Square();
+            liskovProb.TwentyFourFor4x6RectangleFromSquare();
+        }
+    }
+
+    public class Rectangle
+    {
+        public virtual int Height { get; set; }
+        public virtual int Width { get; set; }
+    }
+
+    public class Square : Rectangle
+    {
+        private int _height;
+        private int _width;
+        public override int Height
+        {
+            get
+            {
+                return _height;
+            }
+            set
+            {
+                _height = value;
+                _width = value;
+            }
+        }
+        public override int Width
+        {
+            get
+            {
+                return _width;
+            }
+            set
+            {
+                _width = value;
+                _height = value;
+            }
+        }
+    }
+    public class AreaCalculator
+    {
+        public static int CalculateArea(Rectangle rectangle)
+        {
+            return rectangle.Height * rectangle.Width;
+        }
+        public static int CalculateArea(Square square)
+        {
+            return square.Height * square.Height;
+        }
+    }
+}
